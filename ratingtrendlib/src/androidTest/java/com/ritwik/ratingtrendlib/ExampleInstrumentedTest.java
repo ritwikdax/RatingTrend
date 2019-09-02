@@ -1,4 +1,4 @@
-package com.ritwik.ratingtrend;
+package com.ritwik.ratingtrendlib;
 
 import android.content.Context;
 
@@ -22,6 +22,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
 
-        assertEquals("com.ritwik.ratingtrend.test", appContext.getPackageName());
+        assertEquals("com.ritwik.ratingtrendlib.test", appContext.getPackageName());
     }
 }

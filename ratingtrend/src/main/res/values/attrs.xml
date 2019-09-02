@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <declare-styleable name="RatingTrend">
-        <attr name="rt_backgroundColor" format="color"/>
-        <attr name="rt_strokeColor" format="color"/>
-        <attr name="rt_fontSize" format="dimension"/>
-        <attr name="rt_starIcon" format="reference"/>
-    </declare-styleable>
-</resources>

@@ -1,4 +1,4 @@
-package com.ritwik.ratingtrend;
+package com.ritwik.ratingtrendlib;
 
 import org.junit.Test;
 
