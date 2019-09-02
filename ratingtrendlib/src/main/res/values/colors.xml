@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="oneStarStroke">#ff0000</color>
-    <color name="oneStarFill">#ffff00</color>
+    <color name="oneStarStroke">#ffcd1c26</color>
+    <color name="oneStarFill">#fff7dbdd</color>
+    <color name="twoStarStroke">#ffff7800</color>
+    <color name="twoStarFill">#ffaa7800</color>
+    <color name="threeStarStroke">#ffcdd614</color>
+    <color name="threeStarFill">#fff7f9da</color>
+    <color name="fourStarStroke">#ff5ba829</color>
+    <color name="fourStarFill">#ffe5f1dd</color>
+    <color name="fiveStarStroke">#ff305d02</color>
+    <color name="fiveStarFill">#ffdfe6d7</color>
 </resources>

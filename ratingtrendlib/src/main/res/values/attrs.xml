@@ -1,18 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <declare-styleable name="RatingTrendView">
-        <attr name="rtv_oneStarBackgroundColor" format="color"/>
+        <attr name="rtv_oneStarFillColor" format="color"/>
         <attr name="rtv_oneStarStrokeColor" format="color"/>
-        <attr name="rtv_twoStarBackgroundColor" format="color"/>
+        <attr name="rtv_twoStarFillColor" format="color"/>
         <attr name="rtv_twoStarStrokeColor" format="color"/>
-        <attr name="rtv_threeStarBackgroundColor" format="color"/>
+        <attr name="rtv_threeStarFillColor" format="color"/>
         <attr name="rtv_threeStarStrokeColor" format="color"/>
-        <attr name="rtv_fourStarBackgroundColor" format="color"/>
+        <attr name="rtv_fourStarFillColor" format="color"/>
         <attr name="rtv_fourStarStrokeColor" format="color"/>
-        <attr name="rtv_fiveStarBackgroundColor" format="color"/>
+        <attr name="rtv_fiveStarFillColor" format="color"/>
         <attr name="rtv_fiveStarStrokeColor" format="color"/>
         <attr name="rtv_starIcon" format="reference"/>
         <attr name="rtv_spacing" format="dimension"/>
         <attr name="rtv_strokeWidth" format="dimension"/>
+        <attr name="rtv_cornerRadius" format="dimension"/>
     </declare-styleable>
 </resources>
