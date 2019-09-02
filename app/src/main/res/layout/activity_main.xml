@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <com.ritwik.ratingtrendlib.Rating
+    <com.ritwik.ratingtrendlib.RatingTrendView
         android:layout_width="30dp"
         android:layout_height="30dp"/>
 
