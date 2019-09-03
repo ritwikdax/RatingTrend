@@ -19,14 +19,12 @@ public class RatingTrendView extends View {
     private static final String TAG = "Rating";
 
     /*Default values*/
-    private static final float DEFAULT_STROKE_WIDTH = 4f;
+    private static final float DEFAULT_STROKE_WIDTH = 3f;
     private static final float DEFAULT_FONT_SIZE = 4f;
-    private static final float DEFAULT_SPACING = 5f;
+    private static final float DEFAULT_SPACING = 12f;
 
     private static final int DEFAULT_STROKE_COLOR = 0xFF305D02;
-    private static final int DEFAULT_RATE_VALUE = 5;
-    private static final float DEFAULT_CORNER_RADIUS = 20f;
-    private static final float DEFAULT_WIDTH_BY_HEIGHT_RATIO = 1.3f;
+    private static final float DEFAULT_CORNER_RADIUS = 10f;
 
 
 
@@ -34,8 +32,6 @@ public class RatingTrendView extends View {
     /***
      * User defined values
      */
-    private int mWidth;
-    private int mHeight;
 
     private int[] mRatingSequence;
     private Rating[] mRatings;
@@ -55,18 +51,6 @@ public class RatingTrendView extends View {
     private float mCornerRadius = DEFAULT_CORNER_RADIUS;
     private float mSpacing = DEFAULT_SPACING;
     private int mStarIcon;
-
-
-    private int mBoxWidth;
-    private int mBoxHeight;
-
-
-
-    private Paint mStrokePaint;
-    private Paint mFillPaint;
-
-    private int mStrokeColor = DEFAULT_STROKE_COLOR;
-    private int mFillColor = DEFAULT_STROKE_COLOR;
 
 
 
@@ -138,7 +122,7 @@ public class RatingTrendView extends View {
     }
     private int getDefaultHeight(int measureSpec){
         int width = MeasureSpec.getSize(measureSpec);
-        return (int) ((width/8) / DEFAULT_WIDTH_BY_HEIGHT_RATIO) + getPaddingBottom() + getPaddingTop();
+        return (int) ((width/8) / Rating.WIDTH_BY_HEIGHT_RATIO) + getPaddingBottom() + getPaddingTop();
     }
 
     private int getExpectedSize(int size, int measureSpec){
@@ -171,11 +155,6 @@ public class RatingTrendView extends View {
 
         setMeasuredDimension(getExpectedSize(defWidth, widthMeasureSpec),
                 getExpectedSize(defHeight, heightMeasureSpec));
-
-        mBoxHeight = getHeight();
-        mBoxWidth = getWidth();
-
-        Log.d(TAG, "onMeasure: "+ mBoxWidth +" "+mBoxHeight );
     }
 
     /***
@@ -187,44 +166,28 @@ public class RatingTrendView extends View {
     protected void onDraw(Canvas canvas) {
 
         super.onDraw(canvas);
-
-        int bw = mBoxWidth/8;
-        int i=1;
-        canvas.save();
-        mRatings[0].setmWidth(getWidth()/8);
-        mRatings[0].drawSelf(canvas);
-
-        /*
         if (mRatingSequence == null){
             return;
         }
+        int bw = (int) ((getWidth() - ((mRatingSequence.length-1)*mSpacing) )/8);
+        canvas.save();
+
+
         for (Rating rating : mRatings){
 
-
-            rating.setmWidth(getWidth()/8);
+            rating.setmWidth(bw);
             rating.drawSelf(canvas);
             canvas.translate(bw + mSpacing, 0);
 
+
         }
-
-         */
         canvas.restore();
-
-
     }
 
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
-        mWidth = getMeasuredWidth();
-        mHeight = getMeasuredHeight();
 
-        mBoxHeight = getHeight();
-        mBoxWidth = getWidth();
-        mBoxWidth = (int) (mBoxWidth - (7* mSpacing));
-
-        Log.d(TAG, "onSizeChanged: getHeight()"+ mBoxHeight + " "+ mBoxWidth);
-        Log.d(TAG, "onSizeChanged: getMeasuredWidth()" + " " + mWidth +" "+ mHeight );
 
     }
 
@@ -237,7 +200,7 @@ public class RatingTrendView extends View {
      */
     private Rating getRating(int value ){
 
-        Rating rating = new Rating(value, mCornerRadius);
+        Rating rating = new Rating(value, mCornerRadius, mStrokeWidth);
 
         switch (value){
             case 1:
@@ -262,7 +225,7 @@ public class RatingTrendView extends View {
 
             case 5:
                 rating.setmFillColor(mFiveStarFillColor);
-                rating.setmStrokeColor(mFiveStarFillColor);
+                rating.setmStrokeColor(mFiveStarStrokeColor);
                 break;
         }
         return rating;
