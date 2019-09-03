@@ -83,7 +83,6 @@ public class RatingTrendView extends View {
     public RatingTrendView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         initAttrs(context, attrs);
-        prepareRatingSeq();
     }
 
 
@@ -130,18 +129,6 @@ public class RatingTrendView extends View {
                 getResources().getColor(R.color.fiveStarFill));
 
         typedArray.recycle();
-
-    }
-
-    private void prepareRatingSeq(){
-
-        mRatingSequence = new int[]{1, 3, 5, 4, 1, 5,3,4};
-        mRatings = new Rating[8];
-
-        for (int i=0; i<8 ; i++){
-            mRatings[i] = getRating(mRatingSequence[i]);
-        }
-
 
     }
 
@@ -202,23 +189,25 @@ public class RatingTrendView extends View {
         super.onDraw(canvas);
 
         int bw = mBoxWidth/8;
-
-
-        float left = 0.5f *mStrokeWidth;
-        float top = 0.5f * mStrokeWidth;
-        float right =(mBoxWidth/8) - (0.5f *mStrokeWidth) ;
-        float bottom = mBoxHeight - (0.5f *mStrokeWidth);
         int i=1;
         canvas.save();
-        for (Rating rating: mRatings){
+        mRatings[0].setmWidth(getWidth()/8);
+        mRatings[0].drawSelf(canvas);
+
+        /*
+        if (mRatingSequence == null){
+            return;
+        }
+        for (Rating rating : mRatings){
 
 
-            rating.drawSelf(left, top, right, bottom, canvas);
+            rating.setmWidth(getWidth()/8);
+            rating.drawSelf(canvas);
             canvas.translate(bw + mSpacing, 0);
 
-            i++;
-
         }
+
+         */
         canvas.restore();
 
 
@@ -246,53 +235,34 @@ public class RatingTrendView extends View {
      * @return : Rating obj
      *
      */
-    private Rating getRating(int value){
+    private Rating getRating(int value ){
 
         Rating rating = new Rating(value, mCornerRadius);
-        Paint strokePaint = new Paint();
-        Paint fillPaint = new Paint();
-
-        strokePaint.setStyle(Paint.Style.STROKE);
-        strokePaint.setStrokeWidth(mStrokeWidth);
-        strokePaint.setAntiAlias(true);
-        fillPaint.setStyle(Paint.Style.FILL);
-        fillPaint.setAntiAlias(true);
-
 
         switch (value){
             case 1:
-                strokePaint.setColor(mOneStarStrokeColor);
-                fillPaint.setColor(mOneStarFillColor);
-                rating.setmStrokePaint(strokePaint);
-                rating.setmFillPaint(fillPaint);
+                rating.setmFillColor(mOneStarFillColor);
+                rating.setmStrokeColor(mOneStarStrokeColor);
                 break;
 
             case 2:
-                strokePaint.setColor(mTwoStarStrokeColor);
-                fillPaint.setColor(mTwoStarFillColor);
-                rating.setmStrokePaint(strokePaint);
-                rating.setmFillPaint(fillPaint);
+                rating.setmStrokeColor(mTwoStarStrokeColor);
+                rating.setmFillColor(mTwoStarFillColor);
                 break;
 
             case 3:
-                strokePaint.setColor(mThreeStarStrokeColor);
-                fillPaint.setColor(mThreeStarFillColor);
-                rating.setmStrokePaint(strokePaint);
-                rating.setmFillPaint(fillPaint);
+                rating.setmFillColor(mThreeStarFillColor);
+                rating.setmStrokeColor(mThreeStarStrokeColor);
                 break;
 
             case 4:
-                strokePaint.setColor(mFourStarStrokeColor);
-                fillPaint.setColor(mFourStarFillColor);
-                rating.setmStrokePaint(strokePaint);
-                rating.setmFillPaint(fillPaint);
+                rating.setmStrokeColor(mFourStarStrokeColor);
+                rating.setmFillColor(mFourStarFillColor);
                 break;
 
             case 5:
-                strokePaint.setColor(mFiveStarStrokeColor);
-                fillPaint.setColor(mFiveStarFillColor);
-                rating.setmStrokePaint(strokePaint);
-                rating.setmFillPaint(fillPaint);
+                rating.setmFillColor(mFiveStarFillColor);
+                rating.setmStrokeColor(mFiveStarFillColor);
                 break;
         }
         return rating;
@@ -305,7 +275,14 @@ public class RatingTrendView extends View {
      *
      */
     public void setRatingSequence(int[] ratingSeq){
+
         this.mRatingSequence = ratingSeq;
+        mRatings = new Rating[mRatingSequence.length];
+
+        for (int i=0; i<ratingSeq.length; i++){
+            mRatings[i] = getRating(ratingSeq[i]);
+        }
+
         invalidate();
     }
 }
