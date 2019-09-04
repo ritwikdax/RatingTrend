@@ -3,9 +3,6 @@ package com.ritwik.ratingtrendlib;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
-import android.graphics.Paint;
-import android.graphics.RectF;
-import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
@@ -53,6 +50,7 @@ public class RatingTrendView extends View {
     private int mStarIcon;
 
 
+    private int mTotalWidth;
 
 
     public RatingTrendView(Context context) {
@@ -122,7 +120,8 @@ public class RatingTrendView extends View {
     }
     private int getDefaultHeight(int measureSpec){
         int width = MeasureSpec.getSize(measureSpec);
-        return (int) ((width/8) / Rating.WIDTH_BY_HEIGHT_RATIO) + getPaddingBottom() + getPaddingTop();
+        float actualWidth = (width - (8 * mStrokeWidth) - (7* mSpacing))/8;
+        return (int) ((int) (actualWidth / Rating.WIDTH_BY_HEIGHT_RATIO) + getPaddingBottom() + getPaddingTop() + (0.5 * mStrokeWidth));
     }
 
     private int getExpectedSize(int size, int measureSpec){
@@ -153,6 +152,8 @@ public class RatingTrendView extends View {
         int defWidth = getDefaultWidth();
         int defHeight = getDefaultHeight(widthMeasureSpec);
 
+        mTotalWidth = getExpectedSize(defWidth, widthMeasureSpec);
+
         setMeasuredDimension(getExpectedSize(defWidth, widthMeasureSpec),
                 getExpectedSize(defHeight, heightMeasureSpec));
     }
@@ -169,7 +170,9 @@ public class RatingTrendView extends View {
         if (mRatingSequence == null){
             return;
         }
-        int bw = (int) ((getWidth() - ((mRatingSequence.length-1)*mSpacing) )/8);
+        int bw = getWidthOfEachRatng();
+
+        canvas.translate(getPaddingLeft(), getPaddingTop());
         canvas.save();
 
 
@@ -200,7 +203,8 @@ public class RatingTrendView extends View {
      */
     private Rating getRating(int value ){
 
-        Rating rating = new Rating(value, mCornerRadius, mStrokeWidth);
+        Rating rating = new Rating(value, mCornerRadius, mStrokeWidth, getContext());
+        //rating.setmStarIcon(mStarIcon);
 
         switch (value){
             case 1:
@@ -247,5 +251,10 @@ public class RatingTrendView extends View {
         }
 
         invalidate();
+    }
+
+    private int getWidthOfEachRatng(){
+        int availableWidth = (int) (mTotalWidth - (7*mSpacing) - getPaddingRight() - getPaddingLeft());
+        return availableWidth/8;
     }
 }
