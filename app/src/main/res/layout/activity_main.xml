@@ -4,14 +4,45 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".MainActivity">
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Recent rating trends"
+        android:layout_margin="8dp"
+        android:textColor="@android:color/black"
+        android:textSize="16dp"/>
+
+
+
     <com.ritwik.ratingtrendlib.RatingTrendView
-        android:padding="16dp"
+
+        android:padding="8dp"
         android:id="@+id/rtv_ratingTrend"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Maximum 8 sequence"
+        android:layout_margin="8dp"
+        android:textColor="@android:color/black"
+        android:textSize="16dp"/>
+
+
+
+    <com.ritwik.ratingtrendlib.RatingTrendView
+
+        android:padding="8dp"
+        android:id="@+id/rtv_ratingTrend1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
+
 
 
 

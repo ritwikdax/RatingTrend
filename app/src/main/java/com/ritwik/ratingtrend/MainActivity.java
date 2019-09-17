@@ -14,6 +14,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         RatingTrendView rtv = findViewById(R.id.rtv_ratingTrend);
-        rtv.setRatingSequence(new int[]{1,4, 2,5,1,4,5,5});
+        rtv.setRatingSequence(new int[]{1,2, 3,4,5,1,2,3});
+
+        RatingTrendView rtv1 = findViewById(R.id.rtv_ratingTrend1);
+        rtv1.setRatingSequence(new int[]{5,4, 3,2,1});
     }
 }

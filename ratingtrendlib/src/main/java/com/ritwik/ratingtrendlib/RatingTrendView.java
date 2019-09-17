@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.Nullable;
@@ -17,21 +16,14 @@ public class RatingTrendView extends View {
 
     /*Default values*/
     private static final float DEFAULT_STROKE_WIDTH = 3f;
-    private static final float DEFAULT_FONT_SIZE = 4f;
     private static final float DEFAULT_SPACING = 12f;
-
-    private static final int DEFAULT_STROKE_COLOR = 0xFF305D02;
-    private static final float DEFAULT_CORNER_RADIUS = 10f;
-
-
-
+    private static final float DEFAULT_CORNER_RADIUS = 8f;
 
     /***
      * User defined values
      */
 
     private int[] mRatingSequence;
-    private Rating[] mRatings;
 
     private int mOneStarStrokeColor;
     private int mOneStarFillColor;
@@ -57,6 +49,7 @@ public class RatingTrendView extends View {
     public RatingTrendView(Context context) {
         this(context, null);
     }
+
 
     public RatingTrendView(Context context, @Nullable AttributeSet attrs) {
         this(context, attrs, 0);
@@ -85,30 +78,32 @@ public class RatingTrendView extends View {
         mStarIcon = typedArray.getResourceId(R.styleable.RatingTrendView_rtv_starIcon, R.drawable.ic_star);
 
 
-
-
         /***
          * Initializing colours
          */
         mOneStarStrokeColor = typedArray.getColor(R.styleable.RatingTrendView_rtv_oneStarStrokeColor,
                 getResources().getColor(R.color.oneStarStroke));
-        mOneStarFillColor = typedArray.getColor(R.styleable.RatingTrendView_rtv_oneStarStrokeColor,
+        mOneStarFillColor = typedArray.getColor(R.styleable.RatingTrendView_rtv_oneStarFillColor,
                 getResources().getColor(R.color.oneStarFill));
-        mTwoStarStrokeColor = typedArray.getColor(R.styleable.RatingTrendView_rtv_oneStarStrokeColor,
+
+        mTwoStarStrokeColor = typedArray.getColor(R.styleable.RatingTrendView_rtv_twoStarStrokeColor,
                 getResources().getColor(R.color.twoStarStroke));
-        mTwoStarFillColor = typedArray.getColor(R.styleable.RatingTrendView_rtv_oneStarStrokeColor,
+        mTwoStarFillColor = typedArray.getColor(R.styleable.RatingTrendView_rtv_twoStarFillColor,
                 getResources().getColor(R.color.twoStarFill));
-        mThreeStarStrokeColor = typedArray.getColor(R.styleable.RatingTrendView_rtv_oneStarStrokeColor,
+
+        mThreeStarStrokeColor = typedArray.getColor(R.styleable.RatingTrendView_rtv_threeStarStrokeColor,
                 getResources().getColor(R.color.threeStarStroke));
-        mThreeStarFillColor = typedArray.getColor(R.styleable.RatingTrendView_rtv_oneStarStrokeColor,
+        mThreeStarFillColor = typedArray.getColor(R.styleable.RatingTrendView_rtv_threeStarFillColor,
                 getResources().getColor(R.color.threeStarFill));
-        mFourStarStrokeColor = typedArray.getColor(R.styleable.RatingTrendView_rtv_oneStarStrokeColor,
+
+        mFourStarStrokeColor = typedArray.getColor(R.styleable.RatingTrendView_rtv_fourStarStrokeColor,
                 getResources().getColor(R.color.fourStarStroke));
-        mFourStarFillColor = typedArray.getColor(R.styleable.RatingTrendView_rtv_oneStarStrokeColor,
+        mFourStarFillColor = typedArray.getColor(R.styleable.RatingTrendView_rtv_fourStarFillColor,
                 getResources().getColor(R.color.fourStarFill));
-        mFiveStarStrokeColor = typedArray.getColor(R.styleable.RatingTrendView_rtv_oneStarStrokeColor,
+
+        mFiveStarStrokeColor = typedArray.getColor(R.styleable.RatingTrendView_rtv_fiveStarStrokeColor,
                 getResources().getColor(R.color.fiveStarStroke));
-        mFiveStarFillColor = typedArray.getColor(R.styleable.RatingTrendView_rtv_oneStarStrokeColor,
+        mFiveStarFillColor = typedArray.getColor(R.styleable.RatingTrendView_rtv_fiveStarFillColor,
                 getResources().getColor(R.color.fiveStarFill));
 
         typedArray.recycle();
@@ -117,6 +112,7 @@ public class RatingTrendView extends View {
 
     private int getDefaultWidth(){
 
+        //return whatever :-)
         return 20;
     }
     private int getDefaultHeight(int measureSpec){
@@ -159,10 +155,7 @@ public class RatingTrendView extends View {
                 getExpectedSize(defHeight, heightMeasureSpec));
     }
 
-    /***
-     * @deprecated  {@link #DEFAULT_FONT_SIZE}
-     * @param canvas
-     */
+
 
     @Override
     protected void onDraw(Canvas canvas) {
@@ -173,9 +166,11 @@ public class RatingTrendView extends View {
         }
         int bw = getWidthOfEachRatng();
 
+        //compensate the padding
         canvas.translate(getPaddingLeft(), getPaddingTop());
         canvas.save();
         mRating.setmWidth(bw);
+
 
         for (int i=0; i<mRatingSequence.length; i++){
             prepareRatingItem(mRatingSequence[i]);
@@ -185,7 +180,7 @@ public class RatingTrendView extends View {
         }
 
         canvas.restore();
-        //mRatings[0].drawSelf(canvas);
+
     }
 
     @Override
@@ -196,95 +191,61 @@ public class RatingTrendView extends View {
     }
 
     /***
-     * Give appropriate rating obj according to value like 1* 2* 3* etc
-     *
-     * @param value : must be in range(1,5)
-     * @return : Rating obj
-     *
-     */
-    private Rating getRating(int value ){
-
-        Rating rating = new Rating( mCornerRadius, mStrokeWidth, getContext());
-
-        switch (value){
-            case 1:
-                rating.setmFillColor(mOneStarFillColor);
-                rating.setmStrokeColor(mOneStarStrokeColor);
-                break;
-
-            case 2:
-                rating.setmStrokeColor(mTwoStarStrokeColor);
-                rating.setmFillColor(mTwoStarFillColor);
-                break;
-
-            case 3:
-                rating.setmFillColor(mThreeStarFillColor);
-                rating.setmStrokeColor(mThreeStarStrokeColor);
-                break;
-
-            case 4:
-                rating.setmStrokeColor(mFourStarStrokeColor);
-                rating.setmFillColor(mFourStarFillColor);
-                break;
-
-            case 5:
-                rating.setmFillColor(mFiveStarFillColor);
-                rating.setmStrokeColor(mFiveStarStrokeColor);
-                break;
-        }
-        return rating;
-    }
-
-
-    /***
      * Setting last 8 rating Sequence
      * @param ratingSeq : array [5,4,2,1,2,1,1,4]
      *
      */
     public void setRatingSequence(int[] ratingSeq){
 
-        this.mRatingSequence = ratingSeq;
-        mRating = new Rating(mCornerRadius, mStrokeWidth, getContext());
+        if (ratingSeq.length > 8){
+            throw new IllegalArgumentException("More than 8 sequence is not supported supported");
+        }
 
+        for (int x :ratingSeq){
+            if (x<1 || x>5){
+                throw new IllegalArgumentException("Max Rating value must be 5");
+            }
+        }
+        this.mRatingSequence = ratingSeq;
+        mRating = new Rating(mStarIcon,mCornerRadius, mStrokeWidth, getContext());
         invalidate();
     }
+
 
     private int getWidthOfEachRatng(){
         int availableWidth = (int) (mTotalWidth - (7*mSpacing) - getPaddingRight() - getPaddingLeft());
         return availableWidth/8;
     }
 
+
+
     private void prepareRatingItem(int value){
 
+        mRating.setmValue(value);
         switch (value){
             case 1:
                 mRating.setmFillColor(mOneStarFillColor);
                 mRating.setmStrokeColor(mOneStarStrokeColor);
-                mRating.setmValue(1);
                 break;
 
             case 2:
                 mRating.setmStrokeColor(mTwoStarStrokeColor);
                 mRating.setmFillColor(mTwoStarFillColor);
-                mRating.setmValue(2);
                 break;
 
             case 3:
                 mRating.setmFillColor(mThreeStarFillColor);
                 mRating.setmStrokeColor(mThreeStarStrokeColor);
-                mRating.setmValue(3);
                 break;
 
             case 4:
                 mRating.setmStrokeColor(mFourStarStrokeColor);
                 mRating.setmFillColor(mFourStarFillColor);
-                mRating.setmValue(4);
                 break;
 
             case 5:
                 mRating.setmFillColor(mFiveStarFillColor);
                 mRating.setmStrokeColor(mFiveStarStrokeColor);
-                mRating.setmValue(5);
                 break;
         }
 
