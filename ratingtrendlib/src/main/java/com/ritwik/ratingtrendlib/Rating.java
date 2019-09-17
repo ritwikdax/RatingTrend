@@ -4,11 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.ColorFilter;
 import android.graphics.Paint;
-import android.graphics.PorterDuff;
-import android.graphics.PorterDuffColorFilter;
-import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.VectorDrawable;
@@ -45,16 +41,14 @@ public class Rating {
 
     /***
      *
-     * @param value
+     *
      * @param cornerRadius
      *
      *
      */
-    public Rating(int value, float cornerRadius, float strokeWidth, Context context) {
+    public Rating(float cornerRadius, float strokeWidth, Context context) {
 
-        this.mValue = value;
         this.mCornerRadius = cornerRadius;
-        this.mHeight = mWidth/WIDTH_BY_HEIGHT_RATIO;
         this.mStrokeWidth = strokeWidth;
         this.mPaint = new Paint();
         mPaint.setAntiAlias(true);
@@ -108,8 +102,8 @@ public class Rating {
 
         DrawableCompat.setTint(wrapDrawable, mStrokeColor);
         wrapDrawable.setBounds((int)(mWidth/2)+5,(int)(mHeight/2) -10, (int)(mWidth/2) + 25, (int)(mHeight/2) +10 );
+        wrapDrawable.mutate();
         wrapDrawable.draw(canvas);
-        wrapDrawable.setBounds(0,0,0,0);
         //mDrawableIcon = null;
         //DrawableCompat.unwrap(mDrawableIcon);
 
@@ -125,4 +119,8 @@ public class Rating {
         this.mStarIconSize = (int) (width/2);
     }
 
+    public void setmValue(int mValue) {
+        this.mValue = mValue;
+
+    }
 }

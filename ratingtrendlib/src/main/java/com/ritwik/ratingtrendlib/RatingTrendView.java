@@ -51,6 +51,7 @@ public class RatingTrendView extends View {
 
 
     private int mTotalWidth;
+    private Rating mRating;
 
 
     public RatingTrendView(Context context) {
@@ -174,16 +175,15 @@ public class RatingTrendView extends View {
 
         canvas.translate(getPaddingLeft(), getPaddingTop());
         canvas.save();
+        mRating.setmWidth(bw);
 
-        for(int i=0; i<mRatings.length; i++){
-            mRatings[i].setmWidth(bw);
-            mRatings[i].drawSelf(canvas);
-            //mRatings[i] = null;
-            //mRatings[i].setmDrawableIcon(null);
-
+        for (int i=0; i<mRatingSequence.length; i++){
+            prepareRatingItem(mRatingSequence[i]);
+            mRating.drawSelf(canvas);
             canvas.translate(bw + mSpacing, 0);
 
         }
+
         canvas.restore();
         //mRatings[0].drawSelf(canvas);
     }
@@ -204,7 +204,7 @@ public class RatingTrendView extends View {
      */
     private Rating getRating(int value ){
 
-        Rating rating = new Rating(value, mCornerRadius, mStrokeWidth, getContext());
+        Rating rating = new Rating( mCornerRadius, mStrokeWidth, getContext());
 
         switch (value){
             case 1:
@@ -244,11 +244,7 @@ public class RatingTrendView extends View {
     public void setRatingSequence(int[] ratingSeq){
 
         this.mRatingSequence = ratingSeq;
-        mRatings = new Rating[mRatingSequence.length];
-
-        for (int i=0; i<ratingSeq.length; i++){
-            mRatings[i] = getRating(ratingSeq[i]);
-        }
+        mRating = new Rating(mCornerRadius, mStrokeWidth, getContext());
 
         invalidate();
     }
@@ -256,5 +252,41 @@ public class RatingTrendView extends View {
     private int getWidthOfEachRatng(){
         int availableWidth = (int) (mTotalWidth - (7*mSpacing) - getPaddingRight() - getPaddingLeft());
         return availableWidth/8;
+    }
+
+    private void prepareRatingItem(int value){
+
+        switch (value){
+            case 1:
+                mRating.setmFillColor(mOneStarFillColor);
+                mRating.setmStrokeColor(mOneStarStrokeColor);
+                mRating.setmValue(1);
+                break;
+
+            case 2:
+                mRating.setmStrokeColor(mTwoStarStrokeColor);
+                mRating.setmFillColor(mTwoStarFillColor);
+                mRating.setmValue(2);
+                break;
+
+            case 3:
+                mRating.setmFillColor(mThreeStarFillColor);
+                mRating.setmStrokeColor(mThreeStarStrokeColor);
+                mRating.setmValue(3);
+                break;
+
+            case 4:
+                mRating.setmStrokeColor(mFourStarStrokeColor);
+                mRating.setmFillColor(mFourStarFillColor);
+                mRating.setmValue(4);
+                break;
+
+            case 5:
+                mRating.setmFillColor(mFiveStarFillColor);
+                mRating.setmStrokeColor(mFiveStarStrokeColor);
+                mRating.setmValue(5);
+                break;
+        }
+
     }
 }
