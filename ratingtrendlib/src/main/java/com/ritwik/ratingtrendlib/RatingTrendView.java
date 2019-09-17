@@ -175,16 +175,17 @@ public class RatingTrendView extends View {
         canvas.translate(getPaddingLeft(), getPaddingTop());
         canvas.save();
 
+        for(int i=0; i<mRatings.length; i++){
+            mRatings[i].setmWidth(bw);
+            mRatings[i].drawSelf(canvas);
+            //mRatings[i] = null;
+            //mRatings[i].setmDrawableIcon(null);
 
-        for (Rating rating : mRatings){
-
-            rating.setmWidth(bw);
-            rating.drawSelf(canvas);
             canvas.translate(bw + mSpacing, 0);
-
 
         }
         canvas.restore();
+        //mRatings[0].drawSelf(canvas);
     }
 
     @Override
@@ -204,7 +205,6 @@ public class RatingTrendView extends View {
     private Rating getRating(int value ){
 
         Rating rating = new Rating(value, mCornerRadius, mStrokeWidth, getContext());
-        //rating.setmStarIcon(mStarIcon);
 
         switch (value){
             case 1:

@@ -13,6 +13,7 @@ import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.VectorDrawable;
 import android.os.Build;
+import android.util.Log;
 
 import androidx.annotation.RequiresApi;
 import androidx.core.content.ContextCompat;
@@ -20,6 +21,7 @@ import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat;
 
 public class Rating {
+    public static final String TAG = "Rating";
 
     public static final float WIDTH_BY_HEIGHT_RATIO = 1.5f;
     public static final int STAR_ICON_SIZE = 20;
@@ -39,8 +41,6 @@ public class Rating {
 
     private float mStrokeWidth;
     private int mStarIconSize = STAR_ICON_SIZE;
-
-    private Drawable mDrawableIcon;
 
 
     /***
@@ -100,9 +100,22 @@ public class Rating {
         //mStarIcon.setBounds((int)(mWidth/2),(int)(mHeight/2)-20, (int)(mWidth/2)+20 ,(int)(mHeight/2)-20 );
         //mStarIcon.draw(canvas);
 
-        DrawableCompat.setTint(mDrawableIcon, mStrokeColor);
-        mDrawableIcon.setBounds((int)(mWidth/2)+5,(int)(mHeight/2) -10, (int)(mWidth/2) + 25, (int)(mHeight/2) +10 );
-        mDrawableIcon.draw(canvas);
+        //DrawableCompat.wrap(mDrawableIcon);
+
+        Drawable drawable = mContext.getResources().getDrawable(R.drawable.ic_star);
+        Drawable wrapDrawable = DrawableCompat.wrap(drawable);
+        //DrawableCompat.setTint(wrapDrawable, mStrokeColor);
+
+        DrawableCompat.setTint(wrapDrawable, mStrokeColor);
+        wrapDrawable.setBounds((int)(mWidth/2)+5,(int)(mHeight/2) -10, (int)(mWidth/2) + 25, (int)(mHeight/2) +10 );
+        wrapDrawable.draw(canvas);
+        wrapDrawable.setBounds(0,0,0,0);
+        //mDrawableIcon = null;
+        //DrawableCompat.unwrap(mDrawableIcon);
+
+
+        Log.d(TAG, "drawSelf: Colour is" +  mStrokeColor);
+
 
     }
 
@@ -112,22 +125,4 @@ public class Rating {
         this.mStarIconSize = (int) (width/2);
     }
 
-    public void setmStarIcon() {
-        //this.mStarIcon = starIcon;
-        //Drawable drawable = DrawableCompat.wrap(mStarIcon).mutate();
-        //DrawableCompat.setTint(drawable, mStrokeColor);
-        //mStarIcon.setColorFilter(mStrokeColor, PorterDuff.Mode.SRC_ATOP);
-        //mStarIcon.setTint(mStrokeColor);
-        //Bitmap bmp = BitmapFactory.decodeResource(mContext.getResources(), starIcon );
-        //mStarIcon.setColorFilter(mStrokeColor, PorterDuff.Mode.CLEAR);
-        //ColorFilter colorFilter = new PorterDuffColorFilter(ContextCompat.getColor(mContext, mStrokeColor), PorterDuff.Mode.SRC_IN);
-
-        Drawable drawable = mContext.getResources().getDrawable(R.drawable.ic_star);
-        Drawable wrapDrawable = DrawableCompat.wrap(drawable);
-        //DrawableCompat.setTint(wrapDrawable, mStrokeColor);
-        mDrawableIcon = wrapDrawable;
-
-
-
-    }
 }
