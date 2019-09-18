@@ -1,6 +1,8 @@
 # RatingTrend
 Inspired from Zomato rating trend view.
 
+![Library](https://github.com/devritwik/RatingTrend/blob/master/Rating%20trend%20view.jpg)
+
 ## How to install?
 
 **Step 1.**  Add the JitPack repository to your build file
