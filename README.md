@@ -23,7 +23,7 @@ allprojects {
 ```
 dependencies {
 
-	implementation 'com.github.devritwik:RatingTrend:v1.0'
+	implementation 'com.github.ritwikdax:RatingTrend:v1.0'
 }
 ```
 
